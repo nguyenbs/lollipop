@@ -53,6 +53,15 @@ class Compat {
         #end
     }
 
+    public static function getProperty(o:Dynamic, propName:String) : Dynamic
+    {
+        #if (flash || js)
+        return untyped __js__('{0}[{1}]', o, propName);
+        #else
+        return Reflect.field(o, propName);
+        #end
+    }
+
     public static inline function setArrayLength<T>(a:Array<Null<T>>, length:Int) {
         if (a.length > length) a.splice(length, a.length - length);
         else a[length - 1] = null;
