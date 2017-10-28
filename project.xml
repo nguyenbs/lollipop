@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="Lollipop" package="com.sample.lollipop" version="1.0.0" company="Company Name" />
+	<app main="Main" path="Export" file="Lollipop" />
+	
+	<source path="Source" />
+	
+	<haxelib name="openfl" />
+
+	<assets path="Assets" rename="assets" />
+
+	<setenv name="FACEBOOK_APP_ID" value="1869791886628199" /> <!-- App Secret: ab8a19a84cdcd9a69ee63b92436f7cc9 -->
+	<setenv name="FACEBOOK_DISPLAY_NAME" value="ProjectKit" /> <!-- your game name -->
+	<haxelib name="extension-facebook" />
+</project>
