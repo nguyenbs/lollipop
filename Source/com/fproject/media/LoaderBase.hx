@@ -6,6 +6,7 @@
  **/
 package com.fproject.media;
 
+import as3hx.Compat;
 import Reflect;
 import openfl.events.EventDispatcher;
 import openfl.errors.Error;
@@ -414,7 +415,7 @@ class LoaderBase extends EventDispatcher
             var target : Dynamic = event.target;
         }
 
-        dispatchEvent(new LoaderEvent(LoaderEvent.FAIL, (((Std.is(event, LoaderEvent) && Reflect.hasField(this, "getChildren"))) ? event.target : this),
+        dispatchEvent(new LoaderEvent(LoaderEvent.FAIL, (((Std.is(event, LoaderEvent) && Compat.hasOwnProperty(this, "getChildren"))) ? event.target : this),
             Std.string(this) + " > " + (try cast(event, Dynamic) catch(e:Dynamic) null).text, event));
         dispatchEvent(new LoaderEvent(LoaderEvent.CANCEL, this));
     }
@@ -430,9 +431,9 @@ class LoaderBase extends EventDispatcher
     private function _errorHandler(event : Event) : Void
     {
         var target : Dynamic = event.target;  //trigger the LoaderEvent's target getter once first in order to ensure that it reports properly - see the notes in LoaderEvent.target for more details.
-        target = ((Std.is(event, LoaderEvent) && Reflect.hasField(this, "getChildren"))) ? event.target : this;
+        target = ((Std.is(event, LoaderEvent) && Compat.hasOwnProperty(this, "getChildren"))) ? event.target : this;
         var text : String = "";
-        if (Reflect.hasField(event, "error") && Std.is(Reflect.field(event,"error"), Error))
+        if (Compat.hasOwnProperty(event, "error") && Std.is(Reflect.field(event,"error"), Error))
         {
             text = Reflect.field(event,"error").message;
         }

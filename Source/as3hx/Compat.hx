@@ -1,6 +1,5 @@
 package as3hx;
 
-import java.lang.Boolean;
 import haxe.macro.Context;
 import haxe.macro.Expr;
 import Type;
@@ -39,27 +38,19 @@ class Compat {
         };
     }
 
-    private static var hasOwnProperty_cache:Map<String, Bool>;
-
     public static function hasOwnProperty(o:Dynamic, propName:String) : Bool
     {
-        if(Reflect.hasField(o, propName))
+        #if flash
+        return o == null ? false : o.hasOwnProperty(propName);
+        #elseif js
+        if(o == null)
+            return false;
+        if(o.hasOwnProperty(propName))
             return true;
-        var cname:String = Type.getClassName(o);
-        if(hasOwnProperty_cache == null)
-        {
-            hasOwnProperty_cache = new Map<String, Bool>();
-        }
-
-        var key = cname + "." + propName;
-
-        if(hasOwnProperty_cache.exists(key))
-            return hasOwnProperty_cache.get(key);
-
-        var fields = Type.getInstanceFields(Type.getClass(o));
-        var r:Bool = fields.indexOf(propName) != -1;
-        hasOwnProperty_cache.set(key, r);
-        return r;
+        return untyped __js__('{0}.__class__ == null ? false : {0}.__class__.prototype.hasOwnProperty({1})', o, propName);
+        #else
+        return Reflect.hasField(o, propName);
+        #end
     }
 
     public static inline function setArrayLength<T>(a:Array<Null<T>>, length:Int) {
